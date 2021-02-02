@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+/* reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: #070c53;
+  text-decoration: unset;
+}
+
+ul {
+  margin-left: 1.5rem;
+  list-style: none;
+}
+
+button,
+input[type="submit"] {
+  border: none;
+  background: none;
+  color: unset;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+ul,
+ol {
+  margin: 1em;
+}
+
+/* general */
+body {
+  font-family: "roboto", sans-serif;
+}
+
+/* navbar id */
+#navbar {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: blue;
+}
+
+/* navbar class */
+#navbar .title {
+  margin: 0;
+  color: white;
+  padding: 1 1rem;
+}
+
+#navbar .auth-options {
+  height: 100%;
+  display: flex;
+}
+
+#navbar .auth-options button {
+  padding: 0 1rem;
+  background-color: blue;
+  color: white;
+  font-size: 1.1rem;
+}
+
+#navbar .auth-options button:hover {
+  background-color: darkblue;
+}
+
+@media screen and (max-width: 550px) {
+  #navbar .title {
+    font-size: 0.5rem;
+  }
+  #navbar .auth-options button {
+    padding: 0 0.5rem;
+    font-size: 1rem;
+  }
+}
