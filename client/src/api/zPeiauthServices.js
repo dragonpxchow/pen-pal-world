@@ -1,9 +1,10 @@
 import jwtDecode from "jwt-decode";
 import http from "./httpServices";
+import { tokenKey } from "../../common/constants";
+
 //import { apiUrl } from "../config.json";  use environment variable
 
 const apiEndPoint = "/auth"; //apiUrl + "/auth";
-const tokenKey = "token";
 
 // same with axios.defaults.headers.common["x-auth-token"] = jwt;
 http.setJwt(getJwt()); // fixing bi-directional dependencies
@@ -34,7 +35,7 @@ export function logout() {
   localStorage.removeItem(tokenKey);
 }
 
-export function getCurrentUser() {
+export function xgetCurrentUser() {
   try {
     // authenticared user with valid jwt
     const jwt = localStorage.getItem(tokenKey);

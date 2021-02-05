@@ -10,7 +10,16 @@ import {
   SIGNOUT_SUCCESS,
   SIGNUP_SUCCESS,
   SIGNUP_FAIL,
+  SET_CURRENT_USER,
 } from "./actionTypes";
+
+// set logged in user
+export const setCurrentUser = (decoded) => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: decoded,
+  };
+};
 
 // check token and load user data
 export const loadUser = () => async (dispatch, getState) => {
@@ -20,7 +29,7 @@ export const loadUser = () => async (dispatch, getState) => {
 
   // same with axios.defaults.headers.common["x-auth-token"] = jwt;
   const token = getState().auth.token;
-  http.setJwt(token); // fixing bi-directional dependencies
+  http.setAuthToken(token); // fixing bi-directional dependencies
   //console.log("authActions loadUser token >>>>", token);
   await http
     .get("/users/me")

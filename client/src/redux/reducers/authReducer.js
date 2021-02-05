@@ -1,3 +1,4 @@
+import { tokenKey } from "../../common/constants";
 import {
   USER_LOADING,
   USER_LOADED,
@@ -7,20 +8,27 @@ import {
   SIGNOUT_SUCCESS,
   SIGNUP_SUCCESS,
   SIGNUP_FAIL,
+  SET_CURRENT_USER,
 } from "./../actions/actionTypes";
 
+const isEmpty = require("is-empty");
 const initState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem(tokenKey),
   isAuthenticated: null,
   isLoading: false,
   user: null,
 };
 
-//{token:undefined, user:undefined}
-
 const authReducer = (authState = initState, action) => {
   //console.log("authReducer >>>>>>>", action);
   switch (action.type) {
+    case SET_CURRENT_USER:
+      return {
+        ...authState,
+        isAuthenticated: !isEmpty(action.payload),
+        user: action.payload,
+      };
+
     case USER_LOADING:
       return {
         ...authState,
@@ -37,7 +45,7 @@ const authReducer = (authState = initState, action) => {
       };
     case SIGNIN_SUCCESS:
     case SIGNUP_SUCCESS:
-      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem(tokenKey, action.payload.token);
       return {
         ...authState,
         ...action.payload, // token + user data
@@ -48,7 +56,7 @@ const authReducer = (authState = initState, action) => {
     case SIGNIN_FAIL:
     case SIGNOUT_SUCCESS:
     case SIGNUP_FAIL:
-      localStorage.removeItem("token");
+      localStorage.removeItem(tokenKey);
       return {
         ...authState,
         token: null,
