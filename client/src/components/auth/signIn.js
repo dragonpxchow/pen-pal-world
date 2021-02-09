@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 import { connect } from "react-redux";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-//import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import {
+  Avatar,
+  Button,
+  Box,
+  Container,
+  CssBaseline,
+  Checkbox,
+  Grid,
+  IconButton,
+  TextField,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  InputAdornment,
+  OutlinedInput,
+  Typography,
+} from "@material-ui/core";
+
 import { SIGNIN_FAIL } from "./../../redux/actions/actionTypes";
 import { signIn } from "../../redux/actions/authActions";
 
@@ -41,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+  },
+  textField: {
+    width: "100%",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -81,16 +93,27 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
   const [signInData, setSignInData] = useState({
     email: "",
     password: "",
+    showPassword: false, // will be removed when submit
   });
 
   const handleOnChange = (e) => {
-    setSignInData({ ...signInData, [e.target.id]: e.target.value });
+    const { name, value } = e.target;
+    setSignInData({ ...signInData, [name]: value });
+  };
+
+  const handleClickShowPassword = () => {
+    setSignInData({ ...signInData, showPassword: !signInData.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
     // attempt to register
-    signIn(signInData);
+    const { showPassword, ...signInValues } = signInData; // remove showPassword property
+    signIn(signInValues);
   };
 
   return (
@@ -118,6 +141,39 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
               autoFocus
               onChange={handleOnChange}
             />
+            <FormControl
+              className={clsx(classes.margin, classes.textField)}
+              variant="outlined"
+            >
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <OutlinedInput
+                id="password"
+                name="password"
+                label="Your Password"
+                required
+                type={signInData.showPassword ? "text" : "password"}
+                value={signInData.password}
+                onChange={handleOnChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {signInData.showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+            </FormControl>
+            {/*
             <TextField
               variant="outlined"
               margin="normal"
@@ -130,6 +186,7 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
               autoComplete="current-password"
               onChange={handleOnChange}
             />
+        */}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"

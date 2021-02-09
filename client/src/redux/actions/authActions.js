@@ -1,4 +1,4 @@
-import http from "../../api/httpServices";
+import http from "../../services/httpServices";
 
 import { setErrors, clearErrors } from "./errorAction";
 import {
@@ -50,7 +50,7 @@ export const loadUser = () => async (dispatch, getState) => {
 
 // user signin/login
 export const signIn = (signInData) => async (dispatch) => {
-  //console.log("authActions signIn >>>>>>>");
+  console.log("authActions signIn >>>>>>>", signInData);
   await http
     .post("/auth/login", signInData)
     .then((res) => {

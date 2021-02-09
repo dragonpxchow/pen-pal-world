@@ -19,6 +19,7 @@ import store from "./redux/store/createStore";
 import { setAuthToken } from "./common/utils";
 import { tokenKey } from "./common/constants";
 import { setCurrentUser, signOut } from "./redux/actions/authActions";
+import Employees from "./components/pages/employee/employees";
 import "./styles/app.css";
 
 // Check for token to keep user logged in
@@ -56,6 +57,7 @@ const Wrapper = () => (
           <Route exact path="/register" component={SignUp} />
           <Route exact path="/login" component={SignIn} />
           <Route exact path="/userprofile" component={UserProfile} />
+          <Route exact path="/employees" component={Employees} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/logout" component={SignOut} />
           <Switch>
