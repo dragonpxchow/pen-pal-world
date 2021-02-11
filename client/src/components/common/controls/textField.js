@@ -11,6 +11,8 @@ export const TextField = (props) => {
       name={name}
       value={value}
       onChange={onChange}
+      error
+      helperText="Some validation error"
     ></MuiTextField>
   );
 };

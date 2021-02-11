@@ -50,7 +50,7 @@ export const loadUser = () => async (dispatch, getState) => {
 
 // user signin/login
 export const signIn = (signInData) => async (dispatch) => {
-  console.log("authActions signIn >>>>>>>", signInData);
+  //console.log("authActions signIn >>>>>>>", signInData);
   await http
     .post("/auth/login", signInData)
     .then((res) => {

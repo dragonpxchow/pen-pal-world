@@ -4,12 +4,14 @@ import clsx from "clsx";
 import { connect } from "react-redux";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
   Button,
   Box,
   Container,
+  Collapse,
   CssBaseline,
   Checkbox,
   Grid,
@@ -17,6 +19,7 @@ import {
   TextField,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   InputLabel,
   InputAdornment,
   OutlinedInput,
@@ -63,6 +66,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialFieldValues = {
+  email: "",
+  password: "",
+  showPassword: false, // will be removed when submit
+};
+const initialErrorValues = { email: "", password: "", loginError: "" };
+
 export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
   const classes = useStyles();
 
@@ -74,11 +84,15 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
       "Signup fire useEffect .................isAuthenticated .............",
       isAuthenticated
     );
-*/
+    */
     if (error.id === SIGNIN_FAIL) {
-      setAuthError(error.message.error);
+      console.log("error message in client >>>", error.message);
+      //setAuthError(error.message);
+      setAuthError(initialErrorValues);
+      setAuthError({ ...authError, [error.message.key]: error.message.error });
+      console.log("authError >>>>>>> ", authError);
     } else {
-      setAuthError(null);
+      setAuthError(initialErrorValues);
     }
 
     if (isAuthenticated) {
@@ -88,17 +102,14 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
   }, [error, isAuthenticated, history]);
 
   // the useState() hook allows our component to hold its own internal state
-  const [authError, setAuthError] = useState(null);
-
-  const [signInData, setSignInData] = useState({
-    email: "",
-    password: "",
-    showPassword: false, // will be removed when submit
-  });
+  //const [authError, setAuthError] = useState(null);
+  const [authError, setAuthError] = useState(initialErrorValues);
+  const [signInData, setSignInData] = useState(initialFieldValues);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setSignInData({ ...signInData, [name]: value });
+    setAuthError({ ...authError, [name]: "" });
   };
 
   const handleClickShowPassword = () => {
@@ -129,31 +140,48 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
           </Typography>
 
           <form className={classes.form} noValidate onSubmit={handleOnSubmit}>
+            <Collapse in={authError.loginError ? true : false}>
+              <Alert
+                severity="error"
+                onClose={() => {
+                  setAuthError({ ...authError, loginError: "" });
+                }}
+              >
+                <AlertTitle>Error</AlertTitle>
+                {authError.loginError ? authError.loginError : ""}
+              </Alert>
+            </Collapse>
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
-              autoFocus
+              //autoFocus
               onChange={handleOnChange}
+              error={authError.email ? true : false}
+              helperText={authError.email ? authError.email : ""}
             />
             <FormControl
               className={clsx(classes.margin, classes.textField)}
               variant="outlined"
             >
-              <InputLabel htmlFor="password">Password</InputLabel>
+              <InputLabel
+                htmlFor="password"
+                error={authError.password ? true : false}
+              >
+                Password
+              </InputLabel>
               <OutlinedInput
                 id="password"
                 name="password"
                 label="Your Password"
-                required
                 type={signInData.showPassword ? "text" : "password"}
                 value={signInData.password}
                 onChange={handleOnChange}
+                error={authError.password ? true : false}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -172,6 +200,9 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
                 }
                 labelWidth={70}
               />
+              <FormHelperText error={authError.password ? true : false}>
+                {authError.password ? authError.password : ""}
+              </FormHelperText>
             </FormControl>
             {/*
             <TextField
@@ -212,11 +243,6 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
                 </Link>
               </Grid>
             </Grid>
-            <div className="input-field">
-              <div className="center red-text">
-                {authError ? <p>{authError}</p> : null}
-              </div>
-            </div>
           </form>
         </div>
         <Box mt={8}>
