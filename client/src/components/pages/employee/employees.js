@@ -16,7 +16,7 @@ export default function Employees() {
   return (
     <>
       <PageHeader
-        title="New Employee"
+        title="User Profile"
         subTitle="Form design with validation"
         icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
       />

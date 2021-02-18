@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import _ from "lodash";
 import { User, validateUser } from "../models/user.js";
 
-// get al users
+// get al lusers
 export const getUsers = async (req, res) => {
   // get all users
   const users = await User.find().select("-__v").sort("name"); // except version __v
@@ -22,15 +22,18 @@ export const registerUser = async (req, res) => {
     // validate data first
     const { error } = validateUser(req.body);
     if (error)
-      return res
-        .status(400)
-        .json({ name: "ValidatingUserError", error: error.details[0].message });
+      return res.status(400).json({
+        name: "ValidatingUserError",
+        path: error.details[0].context.key, // field name
+        error: error.details[0].message,
+      });
 
     // then check for user existence
     let user = await User.findOne({ email: req.body.email });
     if (user)
       return res.status(400).json({
         name: "ValidatingUserError",
+        path: "logicError",
         error: "User already registered.",
       });
 
@@ -52,7 +55,9 @@ export const registerUser = async (req, res) => {
         user: _.pick(user, ["_id", "email", "firstName", "lastName"]),
       });
   } catch (err) {
-    res.status(500).json({ name: error.name, error: err.message });
+    res
+      .status(500)
+      .json({ name: error.name, path: "logicError", error: err.message });
   }
 };
 

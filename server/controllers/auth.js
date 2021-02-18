@@ -19,8 +19,8 @@ export const login = async (req, res) => {
     */
     if (error) {
       return res.status(400).json({
-        type: "UserLoginError",
-        key: error.details[0].context.key, // field name
+        name: "UserLoginError",
+        path: error.details[0].context.key, // field name
         error: error.details[0].message,
       });
     }
@@ -30,8 +30,8 @@ export const login = async (req, res) => {
     let user = await User.findOne({ email: email });
     if (!user)
       return res.status(400).json({
-        type: "UserLoginError",
-        key: "loginError",
+        name: "UserLoginError",
+        path: "logicError",
         error: "User does not exist",
       });
 
@@ -39,8 +39,8 @@ export const login = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword)
       return res.status(400).json({
-        type: "UserLoginError",
-        key: "loginError",
+        name: "UserLoginError",
+        path: "logicError",
         error: "Invalid credentials",
       });
 
@@ -59,7 +59,7 @@ export const login = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ type: "UserLoginError", key: "loginError", error: err.message });
+      .json({ name: "UserLoginError", path: "logicError", error: err.message });
   }
 };
 

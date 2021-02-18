@@ -56,7 +56,7 @@ const Wrapper = () => (
           <Route exact path="/" component={SignIn} />
           <Route exact path="/register" component={SignUp} />
           <Route exact path="/login" component={SignIn} />
-          <Route exact path="/userprofile" component={UserProfile} />
+          <Route exact path="/userprofile" component={Employees} />
           <Route exact path="/employees" component={Employees} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/logout" component={SignOut} />

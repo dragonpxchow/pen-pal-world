@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Collapse,
+  Container,
+  CssBaseline,
+  FormControlLabel,
+  Grid,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { SIGNUP_FAIL } from "./../../redux/actions/actionTypes";
 import { signUp } from "../../redux/actions/authActions";
 
@@ -49,15 +53,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialFieldValues = {
+  email: "",
+  password: "",
+  firstName: "",
+  lastName: "",
+};
+const initialErrorValues = {
+  email: "",
+  password: "",
+  firstName: "",
+  lastName: "",
+  logicError: "",
+};
+
 export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
   const classes = useStyles();
   // check the list of dependency values against the values from the last render,
   // and will call your effect function if any one of them has changed
   useEffect(() => {
     if (error.id === SIGNUP_FAIL) {
-      setAuthError(error.message.error);
+      // set error from server
+      setErrors(initialErrorValues);
+      setErrors({ ...errors, [error.message.path]: error.message.error });
     } else {
-      setAuthError(null);
+      setErrors(initialErrorValues);
     }
 
     if (isAuthenticated) {
@@ -67,13 +87,8 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
   }, [error, isAuthenticated, history]);
 
   // the useState() hook allows our component to hold its own internal state
-  const [authError, setAuthError] = useState(null);
-  const [signUpData, setSignUpData] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-  });
+  const [errors, setErrors] = useState(initialErrorValues);
+  const [signUpData, setSignUpData] = useState(initialFieldValues);
 
   // update local state
   const handleOnChange = (e) => {
@@ -100,6 +115,17 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
           Sign up
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleOnSubmit}>
+          <Collapse in={errors.logicError ? true : false}>
+            <Alert
+              severity="error"
+              onClose={() => {
+                setErrors({ ...errors, logicError: "" });
+              }}
+            >
+              <AlertTitle>Error</AlertTitle>
+              {errors.logicError ? errors.logicError : ""}
+            </Alert>
+          </Collapse>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -110,7 +136,6 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
                 fullWidth
                 id="firstName"
                 label="First Name"
-                autoFocus
                 onChange={handleOnChange}
               />
             </Grid>
@@ -174,11 +199,6 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
               </Link>
             </Grid>
           </Grid>
-          <div className="input-field">
-            <div className="center red-text">
-              {authError ? <p>{authError}</p> : null}
-            </div>
-          </div>
         </form>
       </div>
       <Box mt={5}>
@@ -207,9 +227,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(SignUp); // working
 
 /*  // test for empty object {}
       <div className="center red-text">
-            {Object.keys(authError.msg).length === 0 &&
-            authError.msg.constructor === Object ? null : (
-              <p>{authError.msg}</p>
+            {Object.keys(errors.msg).length === 0 &&
+            errors.msg.constructor === Object ? null : (
+              <p>{errors.msg}</p>
             )}
         </div>
 */

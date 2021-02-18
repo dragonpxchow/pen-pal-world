@@ -1,8 +1,8 @@
-import TextField from "./textField";
+import TextField from "./input";
 import RadioGroup from "./radioGroup";
 import Select from "./select";
 import Checkbox from "./checkbox";
-import DatePicker from "./datePicker";
+import KeyboardDatePicker from "./dateTimePicker";
 import Button from "./button";
 
 const Controls = {
@@ -10,7 +10,7 @@ const Controls = {
   RadioGroup,
   Select,
   Checkbox,
-  DatePicker,
+  KeyboardDatePicker,
   Button,
 };
 

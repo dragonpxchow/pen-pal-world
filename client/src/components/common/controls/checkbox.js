@@ -2,14 +2,15 @@ import React from "react";
 import {
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Checkbox as MuiCheckbox,
 } from "@material-ui/core";
 
 export default function Checkbox(props) {
-  const { label, name, value, onChange } = props;
+  const { label, name, value, error = null, onChange } = props;
 
   const convertToDefEventPara = (name, value) => ({
-    target: {
+    currentTarget: {
       name,
       value,
     },
@@ -21,6 +22,7 @@ export default function Checkbox(props) {
         control={
           <MuiCheckbox
             size="medium"
+            id={name}
             name={name}
             checked={value}
             onChange={(e) =>
@@ -31,6 +33,7 @@ export default function Checkbox(props) {
         }
         label={label}
       />
+      {error && <FormHelperText error>{error}</FormHelperText>}
     </FormControl>
   );
 }

@@ -2,17 +2,24 @@ import React from "react";
 import {
   FormControl,
   FormControlLabel,
+  FormHelperText,
   FormLabel,
   Radio,
   RadioGroup as MuiRadioGroup,
 } from "@material-ui/core";
 
 export default function RadioGroup(props) {
-  const { label, name, value, onChange, items } = props;
+  const { label, name, value, error = null, onChange, items } = props;
   return (
     <FormControl>
       <FormLabel size="small">{label}</FormLabel>
-      <MuiRadioGroup row name={name} value={value} onChange={onChange}>
+      <MuiRadioGroup
+        row
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+      >
         {items.map((item) => (
           <FormControlLabel
             size="small"
@@ -23,6 +30,7 @@ export default function RadioGroup(props) {
           />
         ))}
       </MuiRadioGroup>
+      {error && <FormHelperText error>{error}</FormHelperText>}
     </FormControl>
   );
 }
