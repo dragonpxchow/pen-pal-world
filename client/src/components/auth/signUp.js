@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import * as yup from "yup";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
+import MailOutlineOutlinedIcon from "@material-ui/icons/MailOutlineOutlined";
+import VpnLockOutlinedIcon from "@material-ui/icons/VpnLockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
@@ -17,21 +21,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { useForm, Form } from "./../common/useForm";
+import Controls from "./../common/controls/controls";
+import Copyright from "../layout/copyright";
 import { SIGNUP_FAIL } from "./../../redux/actions/actionTypes";
 import { signUp } from "../../redux/actions/authActions";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" to="/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,10 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -67,8 +58,29 @@ const initialErrorValues = {
   logicError: "",
 };
 
+const validationSchema = yup.object().shape({
+  email: yup.string().email().required("Email is required").min(5).max(255),
+  password: yup
+    .string()
+    .required("Password id required")
+    .trim()
+    .min(5, "Password needs to be at least 5 characters")
+    .max(1024),
+  firstName: yup.string().required().min(2).max(50),
+  lastName: yup.string().required().min(2).max(50),
+});
+
 export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
   const classes = useStyles();
+  const {
+    values,
+    errors,
+    setErrors,
+    handleOnChange,
+    validateForm,
+    resetForm,
+  } = useForm(initialFieldValues, initialErrorValues, validationSchema);
+
   // check the list of dependency values against the values from the last render,
   // and will call your effect function if any one of them has changed
   useEffect(() => {
@@ -81,32 +93,29 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
     }
 
     if (isAuthenticated) {
+      // reset form to clear all input data
+      resetForm();
       // go to dashbaord after registered as user successfully
       history.push("/dashboard");
     }
   }, [error, isAuthenticated, history]);
 
-  // the useState() hook allows our component to hold its own internal state
-  const [errors, setErrors] = useState(initialErrorValues);
-  const [signUpData, setSignUpData] = useState(initialFieldValues);
-
-  // update local state
-  const handleOnChange = (e) => {
-    setSignUpData({ ...signUpData, [e.target.id]: e.target.value });
-  };
-
-  // this hook allows us to access the dispatch function
-  // const dispatch = useDispatch();
-
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
+
+    const formErrors = await validateForm();
+    setErrors(initialErrorValues); // clear all errors first
+    setErrors(formErrors || {}); // if any errors caugth, set errors otherwise set {} empty object
+
+    // if found any error, stop submitting the form
+    if (formErrors) return;
+
     // attempt to register
-    signUp(signUpData);
+    signUp(values);
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -114,7 +123,7 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleOnSubmit}>
+        <Form className={classes.form} onSubmit={handleOnSubmit}>
           <Collapse in={errors.logicError ? true : false}>
             <Alert
               severity="error"
@@ -128,53 +137,53 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
           </Collapse>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
+              <Controls.TextField
                 label="First Name"
+                name="firstName"
+                value={values.firstName}
                 onChange={handleOnChange}
-              />
+                error={errors.firstName}
+              ></Controls.TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
+              <Controls.TextField
                 label="Last Name"
                 name="lastName"
-                autoComplete="lname"
+                value={values.lastName}
                 onChange={handleOnChange}
-              />
+                error={errors.lastName}
+              ></Controls.TextField>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
+              <Controls.TextField
+                label="Email"
                 name="email"
-                autoComplete="email"
+                value={values.email}
+                InputProps={{
+                  endAdornment: <MailOutlineOutlinedIcon />,
+                  classes: {
+                    adornedEnd: classes.adornedEnd,
+                  },
+                }}
                 onChange={handleOnChange}
-              />
+                error={errors.email}
+              ></Controls.TextField>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
+              <Controls.TextField
                 label="Password"
+                name="password"
                 type="password"
-                id="password"
-                autoComplete="current-password"
+                value={values.password}
+                InputProps={{
+                  endAdornment: <VpnLockOutlinedIcon />,
+                  classes: {
+                    adornedEnd: classes.adornedEnd,
+                  },
+                }}
                 onChange={handleOnChange}
-              />
+                error={errors.password}
+              ></Controls.TextField>
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
@@ -183,15 +192,12 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
               />
             </Grid>
           </Grid>
-          <Button
+          <Controls.Button
             type="submit"
+            text="Sign Up"
             fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
+            endIcon={<VpnKeyOutlinedIcon />}
+          ></Controls.Button>
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/login" variant="body2">
@@ -199,7 +205,7 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
               </Link>
             </Grid>
           </Grid>
-        </form>
+        </Form>
       </div>
       <Box mt={5}>
         <Copyright />
@@ -217,7 +223,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     // create props called "createProject" which dispatch action created called "createProject"
-    signUp: (signUpData) => dispatch(signUp(signUpData)),
+    signUp: (values) => dispatch(signUp(values)),
   };
 };
 

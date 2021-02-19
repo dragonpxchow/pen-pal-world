@@ -4,6 +4,7 @@ import Select from "./select";
 import Checkbox from "./checkbox";
 import KeyboardDatePicker from "./dateTimePicker";
 import Button from "./button";
+import { Password, ShowPassword } from "./password";
 
 const Controls = {
   TextField,
@@ -12,6 +13,8 @@ const Controls = {
   Checkbox,
   KeyboardDatePicker,
   Button,
+  Password,
+  ShowPassword,
 };
 
 export default Controls;

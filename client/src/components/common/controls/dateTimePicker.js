@@ -1,5 +1,4 @@
 import React from "react";
-import { FormHelperText } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -9,7 +8,7 @@ import {
 // https://material-ui-pickers.dev/getting-started/installation
 // add DatePicker, TimePicker and DateTimePicker later
 export default function KeyboardDatePicker(props) {
-  const { label, name, value, error = null, onChange } = props;
+  const { label, name, value, error = null, onChange, ...others } = props;
   const convertToDefEventPara = (name, value) => ({
     currentTarget: {
       name,
@@ -31,6 +30,7 @@ export default function KeyboardDatePicker(props) {
         id={name}
         name={name}
         value={value}
+        {...others}
         onChange={(date) => {
           onChange(convertToDefEventPara(name, date));
         }}

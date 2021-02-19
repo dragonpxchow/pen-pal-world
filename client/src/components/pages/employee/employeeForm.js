@@ -1,12 +1,20 @@
 import React, { useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import { useForm, Form } from "../../common/useForm";
-import Controls from "../../common/controls/controls";
-import * as employeeService from "../../../services/employeeService";
 import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
+import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
+import MailOutlineOutlinedIcon from "@material-ui/icons/MailOutlineOutlined";
+import PhoneIphoneOutlinedIcon from "@material-ui/icons/PhoneIphoneOutlined";
+import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import * as yup from "yup";
-import { setErrors } from "./../../../redux/actions/errorAction";
+import * as employeeService from "../../../services/employeeService";
+import { useForm, Form } from "../../common/useForm";
+import Controls from "../../common/controls/controls";
+
+const useStyles = makeStyles((theme) => {
+  // need to make stype for inout enddorment icon
+});
 
 const genderItems = [
   { id: "male", title: "Male" },
@@ -37,21 +45,21 @@ const initialErrorValues = {
   isPermanent: false,
 };
 
-export default function EmployeeForm() {
-  const validationSchema = yup.object().shape({
-    fullName: yup.string().required("Full name is required").trim(),
-    email: yup.string().email().required("Email is required").trim(),
-    mobile: yup.string().required("Mobile number is required").trim(),
-    city: yup.string().required("City is required").trim(),
-    gender: yup.string().required("Gender is required"),
-    departmentId: yup.string().required("Please select a department"),
-    hireDate: yup.date(),
-    isPermanent: yup.boolean(),
-  });
+const validationSchema = yup.object().shape({
+  fullName: yup.string().required("Full name is required").trim(),
+  email: yup.string().email().required("Email is required").trim(),
+  mobile: yup.string().required("Mobile number is required").trim(),
+  city: yup.string().required("City is required").trim(),
+  gender: yup.string().required("Gender is required"),
+  departmentId: yup.string().required("Please select a department"),
+  hireDate: yup.date(),
+  isPermanent: yup.boolean(),
+});
 
+export default function EmployeeForm() {
+  const classes = useStyles();
   const {
     values,
-    setValues,
     errors,
     setErrors,
     handleOnChange,
@@ -75,6 +83,8 @@ export default function EmployeeForm() {
     console.log("Attempt to submit the form >>>", values);
     // attempt to login
     //signIn(values);
+    // reset form to clear all input data
+    resetForm();
   };
 
   return (
@@ -85,6 +95,12 @@ export default function EmployeeForm() {
             label="Full Name"
             name="fullName"
             value={values.fullName}
+            InputProps={{
+              endAdornment: <PersonOutlineOutlinedIcon />,
+              classes: {
+                adornedEnd: classes.adornedEnd,
+              },
+            }}
             onChange={handleOnChange}
             error={errors.fullName}
           ></Controls.TextField>
@@ -92,20 +108,40 @@ export default function EmployeeForm() {
             label="Email"
             name="email"
             value={values.email}
+            InputProps={{
+              endAdornment: <MailOutlineOutlinedIcon />,
+              classes: {
+                adornedEnd: classes.adornedEnd,
+              },
+            }}
             onChange={handleOnChange}
             error={errors.email}
           ></Controls.TextField>
+
           <Controls.TextField
             label="Mobile"
             name="mobile"
             value={values.mobile}
+            InputProps={{
+              endAdornment: <PhoneIphoneOutlinedIcon />,
+              classes: {
+                adornedEnd: classes.adornedEnd,
+              },
+            }}
             onChange={handleOnChange}
             error={errors.mobile}
           ></Controls.TextField>
+
           <Controls.TextField
             label="City"
             name="city"
             value={values.city}
+            InputProps={{
+              endAdornment: <LocationOnOutlinedIcon />,
+              classes: {
+                adornedEnd: classes.adornedEnd,
+              },
+            }}
             onChange={handleOnChange}
             error={errors.city}
           ></Controls.TextField>

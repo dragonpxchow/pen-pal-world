@@ -48,10 +48,10 @@ const withFooter = (WrappedComponent) => () => [
 
 const Wrapper = () => (
   <MuiThemeProvider theme={theme}>
+    <CssBaseline />
     <Provider store={store}>
       <Router>
         <div className="App">
-          <CssBaseline />
           <Header />
           <Route exact path="/" component={SignIn} />
           <Route exact path="/register" component={SignUp} />

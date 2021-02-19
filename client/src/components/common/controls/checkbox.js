@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 
 export default function Checkbox(props) {
-  const { label, name, value, error = null, onChange } = props;
+  const { label, name, value, error = null, onChange, ...others } = props;
 
   const convertToDefEventPara = (name, value) => ({
     currentTarget: {
@@ -25,6 +25,7 @@ export default function Checkbox(props) {
             id={name}
             name={name}
             checked={value}
+            {...others}
             onChange={(e) =>
               onChange(convertToDefEventPara(name, e.target.checked))
             }

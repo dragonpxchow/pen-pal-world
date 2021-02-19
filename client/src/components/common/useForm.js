@@ -8,6 +8,7 @@ export function useForm(
   validationSchema
 ) {
   const isEmpty = require("is-empty");
+  // the useState() hook allows our component to hold its own internal state
   const [values, setValues] = useState(initialFieldValues);
   const [errors, setErrors] = useState(initialErrorValues);
 
@@ -32,6 +33,7 @@ export function useForm(
     return inputError;
   };
 
+  /*
   const handleOnBlur = async ({ currentTarget: input }) => {
     // field validation on blur but not in used (client side)
     // input is e.currentTarget
@@ -41,6 +43,7 @@ export function useForm(
     const errorMessage = await validateInput(input);
     setErrors({ ...errors, [name]: errorMessage });
   };
+*/
 
   const handleOnChange = async ({ currentTarget: input }) => {
     //console.log("handleOnChange ..............");
@@ -98,10 +101,16 @@ export function useForm(
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiFormControl-root": {
-      width: "80%",
+      width: "100%",
       margin: theme.spacing(1),
     },
   },
+  /*
+  form: {
+    width: "100%", // Fix IE 11 issue.  /// no ... will try again
+    marginTop: theme.spacing(1),
+  },
+  */
 }));
 
 export function Form(props) {

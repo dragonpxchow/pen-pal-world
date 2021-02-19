@@ -9,7 +9,15 @@ import {
 } from "@material-ui/core";
 
 export default function RadioGroup(props) {
-  const { label, name, value, error = null, onChange, items } = props;
+  const {
+    label,
+    name,
+    value,
+    error = null,
+    onChange,
+    items,
+    ...others
+  } = props;
   return (
     <FormControl>
       <FormLabel size="small">{label}</FormLabel>
@@ -18,6 +26,7 @@ export default function RadioGroup(props) {
         id={name}
         name={name}
         value={value}
+        {...others}
         onChange={onChange}
       >
         {items.map((item) => (
