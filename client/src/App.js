@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import CssBaseline from "@material-ui/core/CssBaseline"; // similar to normalize.css
+import "fontsource-roboto";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 //import { ThemeProvider } from "@material-ui/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import jwt_decode from "jwt-decode";
 import theme from "./components/layout/theme";
 import Header from "./components/layout/header";
@@ -20,8 +21,8 @@ import { setAuthToken } from "./common/utils";
 import { tokenKey } from "./common/constants";
 import { setCurrentUser, signOut } from "./redux/actions/authActions";
 import Employees from "./components/pages/employee/employees";
-import "./styles/app.css";
-
+//import "./styles/app.css";
+  
 // Check for token to keep user logged in
 if (localStorage.getItem(tokenKey)) {
   // Set auth token header auth

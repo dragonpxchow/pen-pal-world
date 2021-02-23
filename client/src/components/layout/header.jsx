@@ -46,12 +46,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logo: {
-    height: "8em",
+    height: "5em", //8em
     [theme.breakpoints.down("md")]: {
-      height: "7em",
+      height: "3em", // 7em
     },
     [theme.breakpoints.down("xs")]: {
-      height: "5.5em",
+      height: "2.5em", //5.5em
     },
   },
   logoContainer: {

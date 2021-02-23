@@ -12,9 +12,11 @@ import * as employeeService from "../../../services/employeeService";
 import { useForm, Form } from "../../common/useForm";
 import Controls from "../../common/controls/controls";
 
-const useStyles = makeStyles((theme) => {
-  // need to make stype for inout enddorment icon
-});
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(0.5),
+  },
+}));
 
 const genderItems = [
   { id: "male", title: "Male" },
@@ -46,7 +48,7 @@ const initialErrorValues = {
 };
 
 const validationSchema = yup.object().shape({
-  fullName: yup.string().required("Full name is required").trim(),
+  fullName: yup.string().required("Full name is required").trim().min(2),
   email: yup.string().email().required("Email is required").trim(),
   mobile: yup.string().required("Mobile number is required").trim(),
   city: yup.string().required("City is required").trim(),
@@ -63,9 +65,10 @@ export default function EmployeeForm() {
     errors,
     setErrors,
     handleOnChange,
+    validateOnBlur, // validate each field onBlur but not onChange (false)
     validateForm,
     resetForm,
-  } = useForm(initialFieldValues, initialErrorValues, validationSchema);
+  } = useForm(initialFieldValues, initialErrorValues, validationSchema, false);
 
   // site effect function
   useEffect(() => {}, []);
@@ -89,7 +92,7 @@ export default function EmployeeForm() {
 
   return (
     <Form onSubmit={handleOnSubmit}>
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={6}>
           <Controls.TextField
             label="Full Name"
@@ -102,6 +105,7 @@ export default function EmployeeForm() {
               },
             }}
             onChange={handleOnChange}
+            onBlur={validateOnBlur}
             error={errors.fullName}
           ></Controls.TextField>
           <Controls.TextField
@@ -115,6 +119,7 @@ export default function EmployeeForm() {
               },
             }}
             onChange={handleOnChange}
+            onBlur={validateOnBlur}
             error={errors.email}
           ></Controls.TextField>
 
@@ -129,6 +134,7 @@ export default function EmployeeForm() {
               },
             }}
             onChange={handleOnChange}
+            onBlur={validateOnBlur}
             error={errors.mobile}
           ></Controls.TextField>
 
@@ -143,6 +149,7 @@ export default function EmployeeForm() {
               },
             }}
             onChange={handleOnChange}
+            onBlur={validateOnBlur}
             error={errors.city}
           ></Controls.TextField>
         </Grid>
@@ -152,6 +159,7 @@ export default function EmployeeForm() {
             name="gender"
             value={values.gender}
             onChange={handleOnChange}
+            onBlur={validateOnBlur}
             error={errors.gender}
             items={genderItems}
           ></Controls.RadioGroup>
@@ -160,6 +168,7 @@ export default function EmployeeForm() {
             name="departmentId"
             value={values.departmentId}
             onChange={handleOnChange}
+            // onBlur={validateOnBlur} // does not work
             error={errors.departmentId}
             options={employeeService.getDepartmentCollection()}
           ></Controls.Select>
@@ -168,6 +177,7 @@ export default function EmployeeForm() {
             name="hireDate"
             value={values.hireDate}
             onChange={handleOnChange}
+            onBlur={validateOnBlur}
             error={errors.hireDate}
           ></Controls.KeyboardDatePicker>
           <Controls.Checkbox
@@ -175,6 +185,7 @@ export default function EmployeeForm() {
             name="isPermanent"
             value={values.isPermanent}
             onChange={handleOnChange}
+            onBlur={validateOnBlur}
             error={errors.isPermanent}
           ></Controls.Checkbox>
           <div>
@@ -187,6 +198,7 @@ export default function EmployeeForm() {
               text="Reset"
               onClick={resetForm}
               startIcon={<RotateLeftIcon />}
+              className={classes.button}
             ></Controls.Button>
           </div>
         </Grid>

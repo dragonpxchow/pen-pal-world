@@ -70,7 +70,7 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
     handleOnChange,
     validateForm,
     resetForm,
-  } = useForm(initialFieldValues, initialErrorValues, validationSchema);
+  } = useForm(initialFieldValues, initialErrorValues, validationSchema, true); // validate each field onChange (true)
 
   // check the list of dependency values against the values from the last render,
   // and will call your effect function if any one of them has changed
@@ -135,32 +135,42 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
               {errors.logicError ? errors.logicError : ""}
             </Alert>
           </Collapse>
-          <Controls.TextField
-            label="Email"
-            name="email"
-            value={values.email}
-            InputProps={{
-              endAdornment: <MailOutlineOutlinedIcon />,
-              classes: {
-                adornedEnd: classes.adornedEnd,
-              },
-            }}
-            onChange={handleOnChange}
-            error={errors.email}
-          ></Controls.TextField>
-          <Controls.ShowPassword
-            label="password"
-            name="password"
-            value={values.password}
-            onChange={handleOnChange}
-            error={errors.password}
-          ></Controls.ShowPassword>
-          <Controls.Button
-            type="submit"
-            text="Sign In"
-            fullWidth
-            endIcon={<VpnKeyOutlinedIcon />}
-          ></Controls.Button>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Controls.TextField
+                label="Email"
+                name="email"
+                value={values.email}
+                InputProps={{
+                  endAdornment: <MailOutlineOutlinedIcon />,
+                  classes: {
+                    adornedEnd: classes.adornedEnd,
+                  },
+                }}
+                onChange={handleOnChange}
+                error={errors.email}
+              ></Controls.TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <Controls.ShowPassword
+                label="password"
+                name="password"
+                value={values.password}
+                onChange={handleOnChange}
+                error={errors.password}
+              ></Controls.ShowPassword>
+            </Grid>
+            <Grid item xs={12}>
+              <Controls.Button
+                type="submit"
+                text="Sign In"
+                fullWidth
+                endIcon={<VpnKeyOutlinedIcon />}
+              ></Controls.Button>
+            </Grid>
+            <Grid item xs={12}></Grid>
+          </Grid>
+
           <Grid container>
             <Grid item xs>
               <Link to="/" variant="body2">

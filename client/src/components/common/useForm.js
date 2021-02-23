@@ -5,17 +5,18 @@ import * as yup from "yup";
 export function useForm(
   initialFieldValues,
   initialErrorValues,
-  validationSchema
+  validationSchema,
+  validateOnChange = false
 ) {
   const isEmpty = require("is-empty");
   // the useState() hook allows our component to hold its own internal state
   const [values, setValues] = useState(initialFieldValues);
   const [errors, setErrors] = useState(initialErrorValues);
 
-  const validateInput = async ({ name, value }) => {
+  const validateInputChange = async ({ name, value }) => {
     // field validation (client side)
     // name , value is object restructing of e.curretnTarget
-    // field validation
+    //console.log("validateInputChange fire ...");
     let inputError = "";
     const options = { abortEarly: true }; // validating one field only
 
@@ -33,29 +34,32 @@ export function useForm(
     return inputError;
   };
 
-  /*
-  const handleOnBlur = async ({ currentTarget: input }) => {
-    // field validation on blur but not in used (client side)
-    // input is e.currentTarget
-    // eg.  input.name === username
-
+  const validateOnBlur = async ({ currentTarget: input }) => {
+    // field validation onBlur if part of props
+    //console.log("ValidationOnBlur fire ....");
     const { name, value } = input;
-    const errorMessage = await validateInput(input);
+    const errorMessage = await validateInputChange(input);
+    // set input error if any, otherwise set it to blank
     setErrors({ ...errors, [name]: errorMessage });
   };
-*/
 
   const handleOnChange = async ({ currentTarget: input }) => {
-    //console.log("handleOnChange ..............");
+    // field validation onChange
+    //console.log("handleOnChange fire ..............");
     const { name, value } = input;
     //console.log(">>>>>>>>>>>>>>>>", name + "<<<>>>>" + value);
 
     // clear server logicError first if any
     errors["logicError"] = "";
-    // validate this input value
-    const errorMessage = await validateInput(input);
-    // set input error if any, otherwise set it to blank
-    setErrors({ ...errors, [name]: errorMessage });
+    // validate this input value if validateOnChange is true
+    if (validateOnChange) {
+      const errorMessage = await validateInputChange(input);
+      // set input error if any, otherwise set it to blank
+      setErrors({ ...errors, [name]: errorMessage });
+    } else {
+      // clear errorMessage
+      setErrors({ ...errors, [name]: "" });
+    }
     // update input value
     setValues({ ...values, [name]: value });
   };
@@ -93,6 +97,7 @@ export function useForm(
     errors,
     setErrors,
     handleOnChange,
+    validateOnBlur,
     validateForm,
     resetForm,
   };

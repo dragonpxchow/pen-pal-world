@@ -13,7 +13,8 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(0.5),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(3),
   },
 }));
 
@@ -43,7 +44,7 @@ export const ShowPassword = (props) => {
     <FormControl
       fullWidth
       size="small"
-      className={clsx(classes.root)}
+      //className={clsx(classes.root)}
       variant="outlined"
     >
       <InputLabel htmlFor="password" error={error ? true : false}>

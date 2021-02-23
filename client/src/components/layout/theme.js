@@ -7,6 +7,7 @@ const arcGrey = "#868686";
 const defaultTheme = createMuiTheme(); //use this to get breakpoints
 
 export default createMuiTheme({
+  //spacing: 4,
   palette: {
     common: {
       blue: arcBlue,
@@ -20,6 +21,15 @@ export default createMuiTheme({
     },
   },
   typography: {
+    // In Chinese and Japanese the characters are usually larger,
+    // so a smaller fontsize may be appropriate.
+    //fontSize: 12,
+    /*
+    button: {
+      fontSize: "0.5rem",
+      fontStyle: 'italic',
+    },
+    */
     tab: {
       fontFamily: "Raleway",
       textTransform: "none",
@@ -98,6 +108,16 @@ export default createMuiTheme({
     },
   },
   overrides: {
+    // style sheet name ⚛
+    /*
+    MuiButton: {
+      // Name of the rule
+      text: {
+        // Some CSS
+        color: "red",
+      },
+    },
+    */
     MuiInputLabel: {
       root: {
         color: arcBlue,
@@ -108,7 +128,9 @@ export default createMuiTheme({
       root: {
         color: arcGrey,
         fontWeight: 300,
+        margin: 5,
         /*
+         margin: 5,
         borderRadius: 0,
         backgroundColor: "#fff",
         border: "1px solid pink",

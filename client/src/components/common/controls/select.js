@@ -41,6 +41,11 @@ export default function Select(props) {
         onChange={(e) =>
           onChange(convertToDefEventPara(e.target.name, e.target.value))
         }
+        /* is there onBlur event ??
+        onBlur={(e) =>
+          onChange(convertToDefEventPara(e.target.name, e.target.value))
+        }
+        */
       >
         <MenuItem value="">None</MenuItem>
         {options.map((item) => (

@@ -77,9 +77,10 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
     errors,
     setErrors,
     handleOnChange,
+    validateOnBlur, // validate each field onBlur but not onChange (false)
     validateForm,
     resetForm,
-  } = useForm(initialFieldValues, initialErrorValues, validationSchema);
+  } = useForm(initialFieldValues, initialErrorValues, validationSchema, false);
 
   // check the list of dependency values against the values from the last render,
   // and will call your effect function if any one of them has changed
@@ -142,6 +143,7 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
                 name="firstName"
                 value={values.firstName}
                 onChange={handleOnChange}
+                onBlur={validateOnBlur}
                 error={errors.firstName}
               ></Controls.TextField>
             </Grid>
@@ -151,6 +153,7 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
                 name="lastName"
                 value={values.lastName}
                 onChange={handleOnChange}
+                onBlur={validateOnBlur}
                 error={errors.lastName}
               ></Controls.TextField>
             </Grid>
@@ -166,6 +169,7 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
                   },
                 }}
                 onChange={handleOnChange}
+                onBlur={validateOnBlur}
                 error={errors.email}
               ></Controls.TextField>
             </Grid>
@@ -182,6 +186,7 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
                   },
                 }}
                 onChange={handleOnChange}
+                onBlur={validateOnBlur}
                 error={errors.password}
               ></Controls.TextField>
             </Grid>
@@ -191,15 +196,19 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
                 label="I want to receive inspiration, new friends and updates via email."
               />
             </Grid>
+            <Grid item xs={12}>
+              <Controls.Button
+                type="submit"
+                text="Sign Up"
+                fullWidth
+                endIcon={<VpnKeyOutlinedIcon />}
+              ></Controls.Button>
+            </Grid>
+            <Grid item xs={12}></Grid>
           </Grid>
-          <Controls.Button
-            type="submit"
-            text="Sign Up"
-            fullWidth
-            endIcon={<VpnKeyOutlinedIcon />}
-          ></Controls.Button>
-          <Grid container justify="flex-end">
-            <Grid item>
+
+          <Grid container item direction="column" alignItems="flex-end">
+            <Grid item xs>
               <Link to="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
