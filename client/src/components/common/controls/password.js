@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+//import clsx from "clsx";
+//import { makeStyles } from "@material-ui/core/styles";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import {
   IconButton,
@@ -11,13 +11,14 @@ import {
   OutlinedInput,
 } from "@material-ui/core";
 
+/*
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(3),
   },
 }));
-
+*/
 export const Password = (props) => {
   return (
     <div>
@@ -27,7 +28,7 @@ export const Password = (props) => {
 };
 
 export const ShowPassword = (props) => {
-  const classes = useStyles();
+  //const classes = useStyles();
   const { label, name, value, error = null, onChange, ...others } = props;
 
   const [isShowPassword, setShow] = useState(false);

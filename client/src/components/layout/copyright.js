@@ -7,11 +7,11 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" to="/">
-        Your Website
+      <Link color="textSecondary" to="/">
+        Pen Pal World
       </Link>{" "}
       {new Date().getFullYear()}
-      {"."}
+      {".  All rights reserved"}
     </Typography>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as yup from "yup";
@@ -11,14 +11,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
   Box,
-  Button,
   Checkbox,
   Collapse,
   Container,
-  CssBaseline,
   FormControlLabel,
   Grid,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import { useForm, Form } from "./../common/useForm";
@@ -33,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    //textAlign: "center",
+    //color: theme.palette.text.secondary,
   },
   avatar: {
     margin: theme.spacing(1),
@@ -45,29 +44,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialFieldValues = {
-  email: "",
-  password: "",
   firstName: "",
   lastName: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
 };
 const initialErrorValues = {
-  email: "",
-  password: "",
   firstName: "",
   lastName: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
   logicError: "",
 };
 
 const validationSchema = yup.object().shape({
+  firstName: yup.string().required().min(2).max(50),
+  lastName: yup.string().required().min(2).max(50),
   email: yup.string().email().required("Email is required").min(5).max(255),
   password: yup
     .string()
-    .required("Password id required")
+    .required("New Password id required")
     .trim()
     .min(5, "Password needs to be at least 5 characters")
     .max(1024),
-  firstName: yup.string().required().min(2).max(50),
-  lastName: yup.string().required().min(2).max(50),
+
+  passwordConfirmation: yup
+    .string()
+    .required("Confirm Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords does not match"),
 });
 
 export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
@@ -112,7 +118,8 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
     if (formErrors) return;
 
     // attempt to register
-    signUp(values);
+    const { passwordConfirmation, ...signUpValues } = values; // remove passwordConfirmation
+    signUp(signUpValues);
   };
 
   return (
@@ -191,6 +198,23 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
               ></Controls.TextField>
             </Grid>
             <Grid item xs={12}>
+              <Controls.TextField
+                label="Verify New Password"
+                name="passwordConfirmation"
+                type="password"
+                value={values.passwordConfirmation}
+                InputProps={{
+                  endAdornment: <VpnLockOutlinedIcon />,
+                  classes: {
+                    adornedEnd: classes.adornedEnd,
+                  },
+                }}
+                onChange={handleOnChange}
+                // onBlur={validateOnBlur}  can be done with special coding
+                error={errors.passwordConfirmation}
+              ></Controls.TextField>
+            </Grid>
+            <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, new friends and updates via email."
@@ -236,15 +260,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-//export default connect(mapStateToProps, null)(SignUp);  // working with use dispatch
+//export default connect(mapStateToProps, null)(SignUp);  // working with useDispatch
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp); // working
 //export default connect(mapStateToProps, { signUp })(SignUp);          // working
-
-/*  // test for empty object {}
-      <div className="center red-text">
-            {Object.keys(errors.msg).length === 0 &&
-            errors.msg.constructor === Object ? null : (
-              <p>{errors.msg}</p>
-            )}
-        </div>
-*/

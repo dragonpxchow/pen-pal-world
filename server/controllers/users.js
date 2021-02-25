@@ -23,7 +23,7 @@ export const registerUser = async (req, res) => {
     const { error } = validateUser(req.body);
     if (error)
       return res.status(400).json({
-        name: "ValidatingUserError",
+        name: "RegisterUserError",
         path: error.details[0].context.key, // field name
         error: error.details[0].message,
       });
@@ -32,7 +32,7 @@ export const registerUser = async (req, res) => {
     let user = await User.findOne({ email: req.body.email });
     if (user)
       return res.status(400).json({
-        name: "ValidatingUserError",
+        name: "RegisterUserError",
         path: "logicError",
         error: "User already registered.",
       });
@@ -57,7 +57,11 @@ export const registerUser = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ name: error.name, path: "logicError", error: err.message });
+      .json({
+        name: "RegisterUserError",
+        path: "logicError",
+        error: err.message,
+      });
   }
 };
 

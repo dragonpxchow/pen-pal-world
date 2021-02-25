@@ -13,7 +13,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import SignIn from "./components/auth/signIn";
 import SignUp from "./components/auth/signUp";
 import SignOut from "./components/auth/signOut";
-import UserProfile from "./components/pages/userProfile";
+import { UserProfile } from "./components/pages/userProfile/userProfilePage";
 import AboutUs from "./components/pages/aboutUs";
 import PrivateRoute from "./components/private-route/privateRoute";
 import store from "./redux/store/createStore";
@@ -22,7 +22,7 @@ import { tokenKey } from "./common/constants";
 import { setCurrentUser, signOut } from "./redux/actions/authActions";
 import Employees from "./components/pages/employee/employees";
 //import "./styles/app.css";
-  
+
 // Check for token to keep user logged in
 if (localStorage.getItem(tokenKey)) {
   // Set auth token header auth
@@ -57,7 +57,7 @@ const Wrapper = () => (
           <Route exact path="/" component={SignIn} />
           <Route exact path="/register" component={SignUp} />
           <Route exact path="/login" component={SignIn} />
-          <Route exact path="/userprofile" component={Employees} />
+          <Route exact path="/userprofile" component={UserProfile} />
           <Route exact path="/employees" component={Employees} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/logout" component={SignOut} />

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import clsx from "clsx";
 import { connect } from "react-redux";
 import * as yup from "yup";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -109,8 +108,6 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
 
     // attempt to login
     signIn(values);
-    //const { showPassword, ...signInValues } = values; // remove showPassword property
-    //signIn(signInValues);
   };
 
   return (

@@ -37,7 +37,7 @@ export function useForm(
   const validateOnBlur = async ({ currentTarget: input }) => {
     // field validation onBlur if part of props
     //console.log("ValidationOnBlur fire ....");
-    const { name, value } = input;
+    const { name } = input;
     const errorMessage = await validateInputChange(input);
     // set input error if any, otherwise set it to blank
     setErrors({ ...errors, [name]: errorMessage });
