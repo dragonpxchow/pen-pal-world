@@ -1,110 +1,101 @@
 import React from "react";
-//import { Link } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-
-import footerAdornment from "../../assets/Footer Adornment.svg";
+import { Container, Grid } from "@material-ui/core/";
+import Copyright from "./copyright";
 import facebook from "../../assets/facebook.svg";
 import twitter from "../../assets/twitter.svg";
 import instagram from "../../assets/instagram.svg";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+    marginTop: theme.spacing(5),
+  },
   footer: {
-    zIndex: 1302,
-    backgroundColor: theme.palette.primary.main,
+    padding: theme.spacing(2, 2),
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
   },
-  adornment: {
-    width: "25em",
-    verticalAlign: "bottom",
-    [theme.breakpoints.down("md")]: {
-      width: "21em",
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: "15em",
-    },
-  },
-  mainContainer: {
-    position: "absolute",
-  },
-  link: {
-    color: "white",
-    fontFamily: "Arial",
-    fontSize: "0.75rem",
-    fontWeight: "bold",
-    textDecoration: "none",
-  },
-  gridItem: {
-    margin: "3em",
-  },
-  icon: {
-    height: "4em",
-    width: "4em",
-    [theme.breakpoints.down("xs")]: {
-      height: "2.5em",
-      width: "2.5em",
-    },
+  main: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   socialContainer: {
-    position: "absolute",
-    marginTop: "-6em",
-    right: "1.5em",
+    backgroundColor: theme.palette.primary.main,
+    position: "relative",
+    marginTop: "1em",
+    borderRadius: "5em",
+  },
+  icon: {
+    marginTop: "0.5em",
+    marginLeft: "2em",
+    height: "2em",
+    width: "2em",
     [theme.breakpoints.down("xs")]: {
-      right: "0.6em",
+      height: "1.25em",
+      width: "1.25em",
     },
   },
 }));
 
-export default function Footer(props) {
+export default function StickyFooter() {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <div className={classes.root}>
       <footer className={classes.footer}>
-        <img
-          alt="black decorative slash"
-          src={footerAdornment}
-          className={classes.adornment}
-        />
-
-        <Grid
-          container
-          justify="flex-end"
-          spacing={2}
-          className={classes.socialContainer}
-        >
+        <Container component="main" className={classes.main} maxWidth="sm">
+          <Copyright />
           <Grid
-            item
-            component={"a"}
-            href="https://www.facebook.com"
-            rel="noopener noreferrer"
-            target="_blank"
+            container
+            direction="row"
+            justify="center"
+            //alignContent="space-between"
+            spacing={2}
+            className={classes.socialContainer}
           >
-            <img alt="facebook logo" src={facebook} className={classes.icon} />
+            <Grid
+              item
+              component={"a"}
+              href="https://www.facebook.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="facebook logo"
+                src={facebook}
+                className={classes.icon}
+              />
+            </Grid>
+            <Grid
+              item
+              component={"a"}
+              href="https://www.twitter.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img alt="twitter logo" src={twitter} className={classes.icon} />
+            </Grid>
+            <Grid
+              item
+              component={"a"}
+              href="https://www.instagram.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="instagram logo"
+                src={instagram}
+                className={classes.icon}
+              />
+            </Grid>
           </Grid>
-          <Grid
-            item
-            component={"a"}
-            href="https://www.twitter.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img alt="twitter logo" src={twitter} className={classes.icon} />
-          </Grid>
-          <Grid
-            item
-            component={"a"}
-            href="https://www.instagram.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img
-              alt="instagram logo"
-              src={instagram}
-              className={classes.icon}
-            />
-          </Grid>
-        </Grid>
+        </Container>
       </footer>
-    </React.Fragment>
+    </div>
   );
 }

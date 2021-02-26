@@ -13,9 +13,6 @@ import UserProfileBio from "./userProfileBio";
 import UserProfileAccountOption from "./userPprofileAccountOption";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   button: {
     marginLeft: theme.spacing(0.5),
   },

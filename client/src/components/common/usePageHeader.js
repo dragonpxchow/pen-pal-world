@@ -2,13 +2,13 @@ import React from "react";
 import { Paper, Card, Typography, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  pageContent: {
+    margin: theme.spacing(0, 5, 0, 5), //top, righ, bottom, left
     backgroundColor: "#fdfdff",
   },
   pageHeader: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(1, 5, 1, 2),
     display: "flex",
-    marginBottom: theme.spacing(2),
   },
   pageIcon: {
     display: "inline-block",
@@ -27,14 +27,14 @@ export default function PageHeader(props) {
   const classes = useStyles();
   const { title, subTitle, icon } = props;
   return (
-    <Paper elevation={0} square className={classes.root}>
+    <Paper elevation={1} square className={classes.pageContent}>
       <div className={classes.pageHeader}>
         <Card className={classes.pageIcon}>{icon}</Card>
         <div className={classes.pageTitle}>
           <Typography variant="h6" component="div">
             {title}
           </Typography>
-          <Typography variant="subtitle2" component="div">
+          <Typography variant="subtitle1" component="div">
             {subTitle}
           </Typography>
         </div>

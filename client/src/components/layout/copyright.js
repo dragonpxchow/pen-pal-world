@@ -7,7 +7,7 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="textSecondary" to="/">
+      <Link color="inherit" to="/">
         Pen Pal World
       </Link>{" "}
       {new Date().getFullYear()}

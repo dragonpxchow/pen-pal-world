@@ -10,7 +10,6 @@ import VpnLockOutlinedIcon from "@material-ui/icons/VpnLockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
-  Box,
   Checkbox,
   Collapse,
   Container,
@@ -20,7 +19,6 @@ import {
 } from "@material-ui/core";
 import { useForm, Form } from "./../common/useForm";
 import Controls from "./../common/controls/controls";
-import Copyright from "../layout/copyright";
 import { SIGNUP_FAIL } from "./../../redux/actions/actionTypes";
 import { signUp } from "../../redux/actions/authActions";
 
@@ -240,9 +238,6 @@ export const SignUp = ({ signUp, isAuthenticated, error, history }) => {
           </Grid>
         </Form>
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
     </Container>
   );
 };

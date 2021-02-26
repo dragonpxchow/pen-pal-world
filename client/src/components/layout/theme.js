@@ -12,6 +12,7 @@ export default createMuiTheme({
     common: {
       blue: arcBlue,
       orange: arcOrange,
+      grey: arcGrey,
     },
     primary: {
       main: arcBlue,
@@ -72,9 +73,9 @@ export default createMuiTheme({
       color: arcGrey,
     },
     subtitle2: {
-      color: "white",
-      fontWeight: 300,
       fontSize: "1.25rem",
+      fontWeight: 300,
+      color: "red",
     },
     body1: {
       fontSize: "1.25rem",

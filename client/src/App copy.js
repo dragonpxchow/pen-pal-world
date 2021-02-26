@@ -42,31 +42,39 @@ if (localStorage.getItem(tokenKey)) {
   }
 }
 
+const withFooter = (WrappedComponent) => () => [
+  <WrappedComponent key="1" />,
+  <Footer key="2" />,
+];
+
+const Wrapper = () => (
+  <MuiThemeProvider theme={theme}>
+    <CssBaseline />
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Header />
+          <Route exact path="/" component={SignIn} />
+          <Route exact path="/register" component={SignUp} />
+          <Route exact path="/login" component={SignIn} />
+          <Route exact path="/userprofile" component={UserProfile} />
+          <Route exact path="/employees" component={Employees} />
+          <Route exact path="/aboutus" component={AboutUs} />
+          <Route exact path="/logout" component={SignOut} />
+          <Switch>
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          </Switch>
+        </div>
+      </Router>
+    </Provider>
+  </MuiThemeProvider>
+);
+
+const WrapperWithFooter = withFooter(Wrapper);
+
 class App extends Component {
   render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <Provider store={store}>
-          <Router>
-            <div className="App">
-              <Header />
-              <Route exact path="/" component={SignIn} />
-              <Route exact path="/register" component={SignUp} />
-              <Route exact path="/login" component={SignIn} />
-              <Route exact path="/userprofile" component={UserProfile} />
-              <Route exact path="/employees" component={Employees} />
-              <Route exact path="/aboutus" component={AboutUs} />
-              <Route exact path="/logout" component={SignOut} />
-              <Switch>
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              </Switch>
-              <Footer />
-            </div>
-          </Router>
-        </Provider>
-      </MuiThemeProvider>
-    );
+    return <WrapperWithFooter />;
   }
 }
 export default App;

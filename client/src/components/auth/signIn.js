@@ -9,7 +9,6 @@ import { Alert, AlertTitle } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Avatar,
-  Box,
   Container,
   Collapse,
   Grid,
@@ -19,7 +18,6 @@ import { useForm, Form } from "./../common/useForm";
 import Controls from "./../common/controls/controls";
 import { SIGNIN_FAIL } from "./../../redux/actions/actionTypes";
 import { signIn } from "../../redux/actions/authActions";
-import Copyright from "../layout/copyright";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -182,9 +180,6 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
           </Grid>
         </Form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 };
