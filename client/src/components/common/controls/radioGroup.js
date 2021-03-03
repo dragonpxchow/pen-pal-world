@@ -1,4 +1,5 @@
 import React from "react";
+import PropType from "prop-types";
 import {
   FormControl,
   FormControlLabel,
@@ -15,7 +16,9 @@ export default function RadioGroup(props) {
     value,
     error = null,
     onChange,
-    items,
+    options,
+    textOption,
+    valueOption,
     ...others
   } = props;
   return (
@@ -29,13 +32,13 @@ export default function RadioGroup(props) {
         {...others}
         onChange={onChange}
       >
-        {items.map((item) => (
+        {options.map((item) => (
           <FormControlLabel
             size="small"
-            key={item.id}
-            value={item.id}
+            key={item[valueOption]}
+            value={item[valueOption]}
             control={<Radio size="small" color="primary" />}
-            label={item.title}
+            label={item[textOption]}
           />
         ))}
       </MuiRadioGroup>
@@ -43,3 +46,16 @@ export default function RadioGroup(props) {
     </FormControl>
   );
 }
+
+// defaultProps make it generic for most object using name and _id, but can override if different
+RadioGroup.defaultProps = {
+  textOption: "name",
+  valueOption: "_id",
+};
+
+RadioGroup.propType = {
+  name: PropType.string.isRequired,
+  options: PropType.array.isRequired,
+  onChange: PropType.array.isRequired,
+  // ...
+};

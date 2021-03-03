@@ -7,7 +7,7 @@ export const TextField = (props) => {
   return (
     <MuiTextField
       fullWidth
-      size="small"
+      size="small" // remove for normal size
       variant="outlined"
       label={label}
       id={name}

@@ -1,4 +1,5 @@
 import React from "react";
+import PropType from "prop-types";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -17,7 +18,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Select(props) {
   const classes = useStyles;
-  const { label, name, value, error = null, onChange, options } = props;
+  const {
+    label,
+    name,
+    value,
+    error = null,
+    onChange,
+    options,
+    textOption,
+    valueOption,
+  } = props;
   const convertToDefEventPara = (name, value) => ({
     currentTarget: {
       name,
@@ -49,8 +59,8 @@ export default function Select(props) {
       >
         <MenuItem value="">None</MenuItem>
         {options.map((item) => (
-          <MenuItem key={item.id} value={item.id}>
-            {item.title}
+          <MenuItem key={item[valueOption]} value={item[valueOption]}>
+            {item[textOption]}
           </MenuItem>
         ))}
       </MuiSelect>
@@ -58,3 +68,16 @@ export default function Select(props) {
     </FormControl>
   );
 }
+
+// defaultProps make it generic for most object using name and _id, but can override if different
+Select.defaultProps = {
+  textOption: "name",
+  valueOption: "_id",
+};
+
+Select.propType = {
+  name: PropType.string.isRequired,
+  options: PropType.array.isRequired,
+  onChange: PropType.array.isRequired,
+  // ...
+};

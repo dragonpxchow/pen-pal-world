@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import * as yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import { useForm, Form } from "./../../common/useForm";
 import { useTab, TabPanel, Tabs } from "./../../common/useTab";
 import Controls from "./../../common/controls/controls";
 import UserProfileInfo from "./userProfileInfo";
-import UserProfileBio from "./userProfileBio";
+import UserProfileBiography from "./userProfileBiography";
 import UserProfileAccountOption from "./userPprofileAccountOption";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,9 +25,11 @@ const initialFieldValues = {
   mobile: "",
   city: "",
   gender: "",
-  departmentId: "",
-  hireDate: new Date(), // null
-  isPermanent: false,
+  joinReasonId: "",
+  dateOfBirth: null, //new Date()
+  agreeWithTC: false,
+  introduction: "",
+  interests: [], // "Singing", "Dacing", "Modelling"
 };
 
 const initialErrorValues = {
@@ -36,9 +38,11 @@ const initialErrorValues = {
   mobile: "",
   city: "",
   gender: "",
-  departmentId: "",
-  hireDate: null,
-  isPermanent: false,
+  joinReasonId: "",
+  dateOfBirth: null,
+  agreeWithTC: false,
+  introduction: "",
+  interests: "",
 };
 
 const validationSchema = yup.object().shape({
@@ -47,9 +51,13 @@ const validationSchema = yup.object().shape({
   mobile: yup.string().required("Mobile number is required").trim(),
   city: yup.string().required("City is required").trim(),
   gender: yup.string().required("Gender is required"),
-  departmentId: yup.string().required("Please select a department"),
-  hireDate: yup.date(),
-  isPermanent: yup.boolean(),
+  joinReasonId: yup.string().required("Please select a reason"),
+  dateOfBirth: yup.date("Date of Birth is required"),
+  agreeWithTC: yup.boolean(),
+  introduction: yup
+    .string()
+    .required("An introducton about yourself is required"),
+  interests: yup.array().min(1).required("interests is required"),
 });
 
 export const UserProfileForm = (props) => {
@@ -110,7 +118,7 @@ export const UserProfileForm = (props) => {
           />
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <UserProfileBio
+          <UserProfileBiography
             values={values}
             errors={errors}
             onChange={handleOnChange}
@@ -125,21 +133,20 @@ export const UserProfileForm = (props) => {
             onBlur={validateOnBlur}
           />
         </TabPanel>
-        <Grid item xs={6}>
-          <div>
-            <Controls.Button
-              type="submit"
-              text="Submit"
-              startIcon={<SaveIcon />}
-            ></Controls.Button>
-            <Controls.Button
-              text="Reset"
-              onClick={resetForm}
-              startIcon={<RotateLeftIcon />}
-              className={classes.button}
-            ></Controls.Button>
-          </div>
-        </Grid>
+
+        <Box textAlign="center">
+          <Controls.Button
+            type="submit"
+            text="Submit"
+            startIcon={<SaveIcon />}
+          ></Controls.Button>
+          <Controls.Button
+            text="Reset"
+            onClick={resetForm}
+            startIcon={<RotateLeftIcon />}
+            className={classes.button}
+          ></Controls.Button>
+        </Box>
       </Form>
     </Grid>
   );

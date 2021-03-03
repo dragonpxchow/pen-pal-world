@@ -55,14 +55,19 @@ class Dashboard extends Component {
                   <b>Hey there,</b> {user.firstName + " " + user.lastName}
                 </Typography>
                 <Typography align="center">
-                  You are logged into a full-stack{" "}
+                  You are logged into a MERN full-stack{" "}
                   <span style={{ fontFamily: "monospace" }}>Friend</span> app 👏
+                </Typography>
+                <Typography variant="h6" align="center">
+                  Please note that this app is under developing and constantly
+                  being updated
                 </Typography>
                 <Box display="flex" alignItems="center" justifyContent="center">
                   <Button
+                    variant="contained"
                     style={{
                       width: "150px",
-                      borderRadius: "3px",
+                      borderRadius: "10px",
                       letterSpacing: "1.5px",
                       marginTop: "1rem",
                     }}

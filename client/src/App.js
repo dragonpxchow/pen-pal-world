@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import CssBaseline from "@material-ui/core/CssBaseline"; // similar to normalize.css
-import "fontsource-roboto";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-//import { ThemeProvider } from "@material-ui/styles";
 import jwt_decode from "jwt-decode";
+import "fontsource-roboto";
+import CssBaseline from "@material-ui/core/CssBaseline"; // similar to normalize.css
+import { Container } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import theme from "./components/layout/theme";
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
@@ -21,7 +21,6 @@ import { setAuthToken } from "./common/utils";
 import { tokenKey } from "./common/constants";
 import { setCurrentUser, signOut } from "./redux/actions/authActions";
 import Employees from "./components/pages/employee/employees";
-//import "./styles/app.css";
 
 // Check for token to keep user logged in
 if (localStorage.getItem(tokenKey)) {
@@ -49,7 +48,7 @@ class App extends Component {
         <CssBaseline />
         <Provider store={store}>
           <Router>
-            <div className="App">
+            <Container>
               <Header />
               <Route exact path="/" component={SignIn} />
               <Route exact path="/register" component={SignUp} />
@@ -62,7 +61,7 @@ class App extends Component {
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
               <Footer />
-            </div>
+            </Container>
           </Router>
         </Provider>
       </MuiThemeProvider>

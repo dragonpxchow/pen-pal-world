@@ -12,14 +12,25 @@ export default createMuiTheme({
     common: {
       blue: arcBlue,
       orange: arcOrange,
-      grey: arcGrey,
+      grey: "#f5f5f5",
     },
     primary: {
-      main: arcBlue,
+      light: "#4dabf5",
+      main: arcBlue, //"#2196f3",
+      dark: "#1769aa",
+      contrastText: "#fff",
     },
     secondary: {
-      main: arcOrange,
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#ba000d",
+      contrastText: "#000",
     },
+    /*
+    background: {
+      paper: "#ffffff",
+    },
+    */
   },
   typography: {
     // In Chinese and Japanese the characters are usually larger,

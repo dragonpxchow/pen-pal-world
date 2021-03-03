@@ -2,9 +2,13 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid } from "@material-ui/core/";
 import Copyright from "./copyright";
-import facebook from "../../assets/facebook.svg";
-import twitter from "../../assets/twitter.svg";
-import instagram from "../../assets/instagram.svg";
+//import facebook from "../../assets/facebook.svg";
+//import twitter from "../../assets/twitter.svg";
+//import instagram from "../../assets/instagram.svg";
+import facebook from "../../assets/facebook.png";
+import twitter from "../../assets/twitter.png";
+import instagram from "../../assets/instagram.png";
+import youtube from "../../assets/youtube.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   socialContainer: {
-    backgroundColor: theme.palette.primary.main,
+    //backgroundColor: theme.palette.primary.main,
     position: "relative",
     marginTop: "1em",
     borderRadius: "5em",
@@ -33,11 +37,12 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginTop: "0.5em",
     marginLeft: "2em",
-    height: "2em",
-    width: "2em",
+    marginRight: "2em",
+    height: "3em",
+    width: "3em",
     [theme.breakpoints.down("xs")]: {
-      height: "1.25em",
-      width: "1.25em",
+      height: "1.5em",
+      width: "1.5em",
     },
   },
 }));
@@ -92,6 +97,15 @@ export default function StickyFooter() {
                 src={instagram}
                 className={classes.icon}
               />
+            </Grid>
+            <Grid
+              item
+              component={"a"}
+              href="https://www.youtube.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img alt="youtube logo" src={youtube} className={classes.icon} />
             </Grid>
           </Grid>
         </Container>
