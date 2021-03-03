@@ -87,27 +87,16 @@ export default function TransferList(props) {
     }
   };
 
-  const convertToDefEventPara = (name, value) => ({
-    currentTarget: {
-      name,
-      value,
-    },
-  });
-
   const handleCheckedRight = () => {
-    const selectedValues = right.concat(leftChecked);
-    setRight(selectedValues);
+    setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
-    onChange(convertToDefEventPara(name, selectedValues));
   };
 
   const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
-    const selectedValues = not(right, rightChecked);
-    onChange(convertToDefEventPara(name, selectedValues));
   };
 
   const customList = (title, items) => (

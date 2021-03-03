@@ -95,7 +95,7 @@ export const UserProfileForm = (props) => {
     // attempt to login
     //signIn(values);
     // reset form to clear all input data
-    resetForm();
+    //    resetForm();
   };
 
   return (
