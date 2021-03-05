@@ -8,13 +8,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserProfileAccountOption = (props) => {
-  //const classes = useStyles();
+  const classes = useStyles();
   //const { values, errors, onChange, onBlur } = props;
   return (
-    <Grid container spacing={10}>
-      <Grid item xs={5}></Grid>
-      <Grid item xs={5}></Grid>
-    </Grid>
+    <div className={classes.root}>
+      <Grid container spacing={10}>
+        <Grid item xs={12}></Grid>
+        <Grid item xs={5}></Grid>
+      </Grid>
+    </div>
   );
 };
 

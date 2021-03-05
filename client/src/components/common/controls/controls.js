@@ -6,6 +6,7 @@ import KeyboardDatePicker from "./dateTimePicker";
 import Button from "./button";
 import { Password, ShowPassword } from "./password";
 import TransferList from "./transferList";
+import Switch from "./switch";
 
 const Controls = {
   TextField,
@@ -17,6 +18,7 @@ const Controls = {
   Password,
   ShowPassword,
   TransferList,
+  Switch,
 };
 
 export default Controls;

@@ -10,7 +10,8 @@ import { useTab, TabPanel, Tabs } from "./../../common/useTab";
 import Controls from "./../../common/controls/controls";
 import UserProfileInfo from "./userProfileInfo";
 import UserProfileBiography from "./userProfileBiography";
-import UserProfileAccountOption from "./userPprofileAccountOption";
+//import UserProfileAccountOption from "./userPprofileAccountOption";
+import UserProfileSetting from "./userProfileSetting";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -29,7 +30,8 @@ const initialFieldValues = {
   dateOfBirth: null, //new Date()
   agreeWithTC: false,
   introduction: "",
-  interests: [], // "Singing", "Dacing", "Modelling"
+  interests: [], // "Singing", "Dacing", "Modelling" eg.. from api call
+  joinMember: false,
 };
 
 const initialErrorValues = {
@@ -43,6 +45,7 @@ const initialErrorValues = {
   agreeWithTC: false,
   introduction: "",
   interests: "",
+  joinMember: false,
 };
 
 const validationSchema = yup.object().shape({
@@ -57,7 +60,11 @@ const validationSchema = yup.object().shape({
   introduction: yup
     .string()
     .required("An introducton about yourself is required"),
-  interests: yup.array().min(1).required("interests is required"),
+  interests: yup
+    .array()
+    .min(1, "Please select at at least one interest/hobby")
+    .required(),
+  joinMember: yup.boolean(),
 });
 
 export const UserProfileForm = (props) => {
@@ -105,7 +112,7 @@ export const UserProfileForm = (props) => {
         selectionFollowsFocus
         onChange={handleTabChange}
         value={tabValue}
-        tabLabels={["User Information", "User Biography", "Payment Options"]}
+        tabLabels={["User Information", "Biography", "Setting"]}
       />
 
       <Form onSubmit={handleOnSubmit}>
@@ -125,8 +132,18 @@ export const UserProfileForm = (props) => {
             onBlur={validateOnBlur}
           />
         </TabPanel>
+        {/*
         <TabPanel value={tabValue} index={2}>
           <UserProfileAccountOption
+            values={values}
+            errors={errors}
+            onChange={handleOnChange}
+            onBlur={validateOnBlur}
+          />
+        </TabPanel>
+        */}
+        <TabPanel value={tabValue} index={2}>
+          <UserProfileSetting
             values={values}
             errors={errors}
             onChange={handleOnChange}

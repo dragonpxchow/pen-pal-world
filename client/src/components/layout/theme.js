@@ -13,6 +13,12 @@ export default createMuiTheme({
       blue: arcBlue,
       orange: arcOrange,
       grey: "#f5f5f5",
+      black: "#000",
+      white: "#fff",
+    },
+    background: {
+      paper: "#fff",
+      default: "#fafafa",
     },
     primary: {
       light: "#4dabf5",
@@ -26,11 +32,19 @@ export default createMuiTheme({
       dark: "#ba000d",
       contrastText: "#000",
     },
-    /*
-    background: {
-      paper: "#ffffff",
+
+    error: {
+      light: "#e57373",
+      main: "#f44336",
+      dark: "#d32f2f",
+      contrastText: "#fff",
     },
-    */
+    text: {
+      primary: "rgba(0, 0, 0, 0.87)",
+      secondary: "rgba(0, 0, 0, 0.54)",
+      disabled: "rgba(0, 0, 0, 0.38)",
+      hint: "rgba(0, 0, 0, 0.38)",
+    },
   },
   typography: {
     // In Chinese and Japanese the characters are usually larger,

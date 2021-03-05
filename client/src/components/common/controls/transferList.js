@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Grid } from "@material-ui/core/";
-import { FormControl, FormHelperText, InputLabel } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import Divider from "@material-ui/core/Divider";
+import {
+  Button,
+  Card,
+  CardHeader,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,16 +51,7 @@ function union(a, b) {
 
 export default function TransferList(props) {
   const classes = useStyles();
-  const {
-    label,
-    name,
-    value,
-    error = null,
-    onChange,
-    options,
-    textOption,
-    valueOption,
-  } = props;
+  const { label, name, value, error = null, onChange, options } = props;
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState(options);
   const [right, setRight] = useState(value);
