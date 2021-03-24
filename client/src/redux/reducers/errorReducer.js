@@ -7,6 +7,7 @@ const initState = {
 };
 
 const errorReducer = (errorState = initState, action) => {
+  //console.log("errorReducer fire >>>>>>>> ", action);
   switch (action.type) {
     case SET_ERRORS:
       return {

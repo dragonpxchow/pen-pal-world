@@ -1,5 +1,4 @@
 import http from "../../services/httpServices";
-
 import { setErrors, clearErrors } from "./errorAction";
 import {
   USER_LOADING,
@@ -22,7 +21,8 @@ export const setCurrentUser = (decoded) => {
 };
 
 // check token and load user data
-export const loadUser = () => async (dispatch, getState) => {
+export const xxxxloadUser = () => async (dispatch, getState) => {
+  // not in use yet
   //try {
   // User loading
   dispatch({ type: USER_LOADING });
@@ -40,7 +40,7 @@ export const loadUser = () => async (dispatch, getState) => {
       });
     })
     .catch((error) => {
-      //console.log("authActions error >>>>>>>", error.response);
+      //console.log("authActions error >>>>>>>>", error.response);
       dispatch(setErrors(error.response.data, error.response.status));
       dispatch({
         type: AUTH_ERROR,

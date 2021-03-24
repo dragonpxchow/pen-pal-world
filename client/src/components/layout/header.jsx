@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -154,33 +154,44 @@ export function Header(props) {
     setOpenMenu(false);
   };
 
-  const menuOptions = !props.auth.isAuthenticated
-    ? [{ name: "About Us", link: "/AboutUs", activeIndex: 1, selectedIndex: 0 }]
-    : [
-        {
-          name: "Profile",
-          link: "/profile",
-          activeIndex: 1,
-          selectedIndex: 0,
-        },
-        {
-          name: "Logout",
-          link: "/logout",
-          activeIndex: 1,
-          selectedIndex: 1,
-        },
-      ];
+  const menuOptions = useMemo(() => {
+    return !props.auth.isAuthenticated
+      ? [
+          {
+            name: "About Us",
+            link: "/AboutUs",
+            activeIndex: 1,
+            selectedIndex: 0,
+          },
+        ]
+      : [
+          {
+            name: "Profile",
+            link: "/profile",
+            activeIndex: 1,
+            selectedIndex: 0,
+          },
+          {
+            name: "Logout",
+            link: "/logout",
+            activeIndex: 1,
+            selectedIndex: 1,
+          },
+        ];
+  }, [props.auth.isAuthenticated]);
 
-  const routes = !props.auth.isAuthenticated
-    ? [
-        { name: "Home", link: "/", activeIndex: 0 },
-        { name: "About Us", link: "/AboutUs", activeIndex: 1 },
-      ]
-    : [
-        { name: "Home", link: "/", activeIndex: 0 },
-        { name: "Profile", link: "/userprofile", activeIndex: 1 },
-        { name: "Logout", link: "/logout", activeIndex: 2 },
-      ];
+  const routes = useMemo(() => {
+    return !props.auth.isAuthenticated
+      ? [
+          { name: "Home", link: "/", activeIndex: 0 },
+          { name: "About Us", link: "/AboutUs", activeIndex: 1 },
+        ]
+      : [
+          { name: "Home", link: "/", activeIndex: 0 },
+          { name: "Profile", link: "/userprofile", activeIndex: 1 },
+          { name: "Logout", link: "/logout", activeIndex: 2 },
+        ];
+  }, [props.auth.isAuthenticated]);
 
   useEffect(() => {
     [...menuOptions, ...routes].forEach((route) => {

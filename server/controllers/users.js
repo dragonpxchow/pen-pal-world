@@ -3,21 +3,20 @@ import jwt from "jsonwebtoken";
 import _ from "lodash";
 import { User, validateUser } from "../models/user.js";
 
-// get al lusers
 export const getUsers = async (req, res) => {
   // get all users
   const users = await User.find().select("-__v").sort("name"); // except version __v
   res.send(users);
 };
 
-// get single user
 export const getUser = async (req, res) => {
-  //console.log("Server getUser controller >>>>", req.user);
+  // get single user
   const user = await User.findById(req.user._id).select("-password"); // except password
   res.json(user);
 };
 
 export const registerUser = async (req, res) => {
+  // register as new user/account
   try {
     // validate data first
     const { error } = validateUser(req.body);
@@ -55,13 +54,11 @@ export const registerUser = async (req, res) => {
         user: _.pick(user, ["_id", "email", "firstName", "lastName"]),
       });
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        name: "RegisterUserError",
-        path: "logicError",
-        error: err.message,
-      });
+    res.status(500).json({
+      name: "RegisterUserError",
+      path: "logicError",
+      error: err.message,
+    });
   }
 };
 

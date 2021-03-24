@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; // https://react-redux.js.org/next/api/hooks#equality-comparisons-and-updates
 import * as yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Box } from "@material-ui/core";
@@ -12,27 +12,16 @@ import UserProfileInfo from "./userProfileInfo";
 import UserProfileBiography from "./userProfileBiography";
 //import UserProfileAccountOption from "./userPprofileAccountOption";
 import UserProfileSetting from "./userProfileSetting";
+import {
+  getUserProfile,
+  createUserProfile,
+} from "./../../../redux/actions/userProfileActions";
 
 const useStyles = makeStyles((theme) => ({
   button: {
     marginLeft: theme.spacing(0.5),
   },
 }));
-
-const initialFieldValues = {
-  id: 0,
-  fullName: "",
-  email: "",
-  mobile: "",
-  city: "",
-  gender: "",
-  joinReasonId: "",
-  dateOfBirth: null, //new Date()
-  agreeWithTC: false,
-  introduction: "",
-  interests: [], // "Singing", "Dacing", "Modelling" eg.. from api call
-  joinMember: false,
-};
 
 const initialErrorValues = {
   fullName: "",
@@ -67,13 +56,23 @@ const validationSchema = yup.object().shape({
   joinMember: yup.boolean(),
 });
 
-export const UserProfileForm = (props) => {
+export const UserProfileForm = () => {
   // use styles
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const { isAuthenticated, userProfile } = useSelector((state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    userProfile: state.userProfile.userProfile,
+  }));
+
+  // site effect function
+  useEffect(() => {
+    if (isAuthenticated) dispatch(getUserProfile("bigpiggy@gmail.com"));
+  }, [isAuthenticated, dispatch]);
 
   // use tabs
   const { tabValue, handleTabChange } = useTab(0);
-
   // use form
   const {
     values,
@@ -83,10 +82,8 @@ export const UserProfileForm = (props) => {
     validateOnBlur, // validate each field onBlur but not onChange (false)
     validateForm,
     resetForm,
-  } = useForm(initialFieldValues, initialErrorValues, validationSchema, false);
-
-  // site effect function
-  useEffect(() => {}, []);
+  } = useForm(userProfile, initialErrorValues, validationSchema, false);
+  //} = useForm(initialFieldValues, initialErrorValues, validationSchema, false);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -98,11 +95,11 @@ export const UserProfileForm = (props) => {
     // if any error, stop to calling server
     if (formErrors) return;
 
-    console.log("Attempt to submit the form >>>", values);
-    // attempt to login
-    //signIn(values);
+    // if no error, attempt to submit
+    dispatch(createUserProfile(values));
+
     // reset form to clear all input data
-    //    resetForm();
+    //   resetForm();
   };
 
   return (
@@ -169,12 +166,4 @@ export const UserProfileForm = (props) => {
   );
 };
 
-UserProfileForm.propTypes = {
-  //props: PropTypes,
-};
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfileForm);
+export default UserProfileForm;

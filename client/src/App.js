@@ -13,7 +13,8 @@ import Dashboard from "./components/dashboard/dashboard";
 import SignIn from "./components/auth/signIn";
 import SignUp from "./components/auth/signUp";
 import SignOut from "./components/auth/signOut";
-import { UserProfile } from "./components/pages/userProfile/userProfilePage";
+//import { UserProfile } from "./components/pages/userProfile/userProfilePage";
+import UserProfile from "./components/pages/userProfile/userProfilePage";
 import AboutUs from "./components/pages/aboutUs";
 import PrivateRoute from "./components/private-route/privateRoute";
 import store from "./redux/store/createStore";
@@ -53,7 +54,7 @@ class App extends Component {
               <Route exact path="/" component={SignIn} />
               <Route exact path="/register" component={SignUp} />
               <Route exact path="/login" component={SignIn} />
-              <Route exact path="/userprofile" component={UserProfile} />
+              <PrivateRoute exact path="/userprofile" component={UserProfile} />
               <Route exact path="/employees" component={Employees} />
               <Route exact path="/aboutus" component={AboutUs} />
               <Route exact path="/logout" component={SignOut} />

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
@@ -58,7 +58,13 @@ const validationSchema = yup.object().shape({
   */
 });
 
-export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
+export const SignIn = ({
+  signIn,
+  getUserProfile,
+  isAuthenticated,
+  error,
+  history,
+}) => {
   const classes = useStyles();
   const {
     values,
@@ -78,6 +84,7 @@ export const SignIn = ({ signIn, isAuthenticated, error, history }) => {
       isAuthenticated
     );
     */
+
     if (error.id === SIGNIN_FAIL) {
       // set error from server
       setErrors(initialErrorValues);

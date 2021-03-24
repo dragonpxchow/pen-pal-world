@@ -20,7 +20,6 @@ const initState = {
 };
 
 const authReducer = (authState = initState, action) => {
-  //console.log("authReducer >>>>>>>", action);
   switch (action.type) {
     case SET_CURRENT_USER:
       return {
@@ -36,7 +35,6 @@ const authReducer = (authState = initState, action) => {
       };
     // test user's login or not
     case USER_LOADED:
-      //console.log("authReducer USET_LOADRD >>", action.payload);
       return {
         ...authState,
         isAuthenticated: true,

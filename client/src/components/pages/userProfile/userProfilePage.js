@@ -1,5 +1,4 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
 import PageHeader from "../../common/usePageHeader";
 import PeopleOutlineTwoToneIcon from "@material-ui/icons/PeopleOutlineTwoTone";
 import { Container, Paper, makeStyles } from "@material-ui/core";
@@ -18,8 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const UserProfile = (props) => {
+export const UserProfile = () => {
   const classes = useStyles();
+  useEffect(() => {});
+
   return (
     <Container className={classes.pageContent}>
       <PageHeader
@@ -34,8 +35,4 @@ export const UserProfile = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default UserProfile;
