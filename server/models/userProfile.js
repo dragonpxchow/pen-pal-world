@@ -1,18 +1,18 @@
-import Joi, { string } from "joi";
+import Joi from "joi";
 import mongoose from "mongoose";
 
 // userProfile schema definition
 const userProfileSchema = new mongoose.Schema({
-  accountId: { type: string, required: true }, // from user's login account _id
+  accountId: { type: String, required: true }, // from user's login account _id
   fullName: { type: String, required: true, trim: true },
   email: { type: String, required: true, trim: true, unique: true },
   mobile: { type: String, trim: true, required: true },
   city: { type: String, trim: true, required: true },
-  gender: { type: string, required: true },
-  joinReasonId: { type: string, required: true },
+  gender: { type: String, required: true },
+  joinReasonId: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
   agreeWithTC: { type: Boolean, default: true },
-  introduction: { type: string, required: true, trim: true },
+  introduction: { type: String, required: true, trim: true },
   interests: { type: Array, required: true },
   joinMember: { type: Boolean, default: false },
 });
@@ -25,7 +25,7 @@ export const validateUserProfile = (userProfile) => {
   const schema = Joi.object({
     accountId: Joi.string().required(), // from user's login account
     fullName: Joi.string().min(2).max(255).required(),
-    email: Joi.email().min(5).max(255).required(),
+    email: Joi.string().min(5).max(255).required().email(),
     mobile: Joi.string().min(10).required(),
     city: Joi.string().required(),
     gender: Joi.string().required(),

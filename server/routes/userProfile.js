@@ -8,8 +8,8 @@ import {
 
 const router = express.Router();
 
-router.get("/:id", auth, getUserProfile); // router.get("/:id" ..
+router.get("/:accountId", auth, getUserProfile); // router.get("/:id" ..
 router.post("/create", createUserProfile); // create user profile
-router.put("/update", updateUserProfile); // upodate user profile
+router.put("/update/:accountId", updateUserProfile); // upodate user profile
 
 export default router;

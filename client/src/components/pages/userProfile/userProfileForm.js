@@ -10,11 +10,12 @@ import { useTab, TabPanel, Tabs } from "./../../common/useTab";
 import Controls from "./../../common/controls/controls";
 import UserProfileInfo from "./userProfileInfo";
 import UserProfileBiography from "./userProfileBiography";
-//import UserProfileAccountOption from "./userPprofileAccountOption";
+//import UserProfileAccountOption from "./userProfileAccountOption";
 import UserProfileSetting from "./userProfileSetting";
 import {
   getUserProfile,
   createUserProfile,
+  updateUserProfile,
 } from "./../../../redux/actions/userProfileActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +23,22 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(0.5),
   },
 }));
+
+const initialFieldValues = {
+  id: 0,
+  accountId: "",
+  fullName: "hello Pei",
+  email: "",
+  mobile: "",
+  city: "",
+  gender: "",
+  joinReasonId: "1",
+  dateOfBirth: null, //new Date()
+  agreeWithTC: false,
+  introduction: "",
+  interests: [], // "Singing", "Dacing", "Modelling" eg.. from api call
+  joinMember: false,
+};
 
 const initialErrorValues = {
   fullName: "",
@@ -61,16 +78,23 @@ export const UserProfileForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { isAuthenticated, userProfile } = useSelector((state) => ({
+  const { isAuthenticated, userProfile, isLoaded } = useSelector((state) => ({
     isAuthenticated: state.auth.isAuthenticated,
     userProfile: state.userProfile.userProfile,
+    isLoaded: state.userProfile.isLoaded,
   }));
 
-  // site effect function
   useEffect(() => {
-    if (isAuthenticated) dispatch(getUserProfile("bigpiggy@gmail.com"));
+    /*
+    console.log(
+      "userProfileForm useEffect dispatch to getUserProfile() ............"
+    );
+    */
+    if (isAuthenticated) dispatch(getUserProfile());
   }, [isAuthenticated, dispatch]);
 
+  //const isEmpty = require("is-empty");
+  //console.log("IsLoaded >>" + isLoaded, userProfile);
   // use tabs
   const { tabValue, handleTabChange } = useTab(0);
   // use form
@@ -82,7 +106,12 @@ export const UserProfileForm = () => {
     validateOnBlur, // validate each field onBlur but not onChange (false)
     validateForm,
     resetForm,
-  } = useForm(userProfile, initialErrorValues, validationSchema, false);
+  } = useForm(
+    isLoaded ? userProfile : initialFieldValues,
+    initialErrorValues,
+    validationSchema,
+    false
+  );
   //} = useForm(initialFieldValues, initialErrorValues, validationSchema, false);
 
   const handleOnSubmit = async (e) => {
@@ -95,9 +124,16 @@ export const UserProfileForm = () => {
     // if any error, stop to calling server
     if (formErrors) return;
 
-    // if no error, attempt to submit
-    dispatch(createUserProfile(values));
+    //console.log("Attempt to submit the form >>>", values);
+    if (isLoaded) {
+      //console.log("dispatch to update existing user profile ...");
+      dispatch(updateUserProfile(values));
+    } else {
+      dispatch(createUserProfile(values));
+      //console.log(">> dispatched createUserProfile");
+    }
 
+    //signIn(values);
     // reset form to clear all input data
     //   resetForm();
   };
@@ -111,7 +147,6 @@ export const UserProfileForm = () => {
         value={tabValue}
         tabLabels={["User Information", "Biography", "Setting"]}
       />
-
       <Form onSubmit={handleOnSubmit}>
         <TabPanel value={tabValue} index={0}>
           <UserProfileInfo
@@ -130,14 +165,14 @@ export const UserProfileForm = () => {
           />
         </TabPanel>
         {/*
-        <TabPanel value={tabValue} index={2}>
+          <TabPanel value={tabValue} index={2}>
           <UserProfileAccountOption
-            values={values}
-            errors={errors}
-            onChange={handleOnChange}
-            onBlur={validateOnBlur}
+          values={values}
+          errors={errors}
+          onChange={handleOnChange}
+          onBlur={validateOnBlur}
           />
-        </TabPanel>
+          </TabPanel>
         */}
         <TabPanel value={tabValue} index={2}>
           <UserProfileSetting
@@ -152,6 +187,7 @@ export const UserProfileForm = () => {
           <Controls.Button
             type="submit"
             text="Submit"
+            //disabled={!isEmpty(errors)}
             startIcon={<SaveIcon />}
           ></Controls.Button>
           <Controls.Button

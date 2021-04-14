@@ -3,14 +3,20 @@ import {
   USER_PROFILE_LOADED,
   USER_PROFILE_ERROR,
   USER_PROFILE_CREATED,
+  USER_PROFILE_UPDATED,
   USER_PROFILE_FAILED,
 } from "./../actions/actionTypes";
 
+//import { getUserProfile } from "./../actions/userProfileActions";
+
+//const currentUserProfile = getUserProfile;
+//console.log("current user pfoile *****", currentUserProfile);
 const initState = {
   isLoading: false,
   isLoaded: false,
+  userProfile: {},
+  /* 
   userProfile: {
-    id: 0,
     accountId: "",
     fullName: "",
     email: "",
@@ -24,25 +30,33 @@ const initState = {
     interests: [], // "Singing", "Dacing", "Modelling" eg.. from api call
     joinMember: false,
   },
+  */
 };
 
 const userProfileReducer = (userProfileState = initState, action) => {
+  //console.log("userProfileReducer fire >>>>>", action);
   switch (action.type) {
     case USER_PROFILE_LOADING:
-      return { ...userProfileState, isLoading: true, isLoaded: false };
+      return {
+        ...userProfileState,
+        isLoading: true,
+        isLoaded: false,
+      };
 
     case USER_PROFILE_LOADED:
       return {
         ...userProfileState,
+        ...action.payload,
         isLoading: false,
         isLoaded: true,
-        userProfile: action.payload,
       };
 
     case USER_PROFILE_CREATED:
+    case USER_PROFILE_UPDATED:
+      //console.log("created/updated action.payload >....", action.payload);
       return {
         ...userProfileState,
-        ...action.payload, // user profile data
+        ...action.payload,
         isLoading: false,
         isLoaded: true,
       };

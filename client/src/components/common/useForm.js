@@ -82,7 +82,7 @@ export function useForm(
         }
       });
     // if any error, return errors otherwise return null
-    console.log("form erros >>>", formErrors);
+    //console.log("form erros >>>", formErrors);
     return !isEmpty(formErrors) ? formErrors : null;
   };
 

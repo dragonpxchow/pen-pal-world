@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+//import { useDispatch, useSelector } from "react-redux"; // https://react-redux.js.org/next/api/hooks#equality-comparisons-and-updates
 import PageHeader from "../../common/usePageHeader";
 import PeopleOutlineTwoToneIcon from "@material-ui/icons/PeopleOutlineTwoTone";
 import { Container, Paper, makeStyles } from "@material-ui/core";
 import UserProfileForm from "./userProfileForm";
+//import { getUserProfile } from "./../../../redux/actions/userProfileActions";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -17,9 +19,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const UserProfile = (s) => {
+export const UserProfile = () => {
   const classes = useStyles();
+  useEffect(() => {});
+  /*
+  const { isAuthenticated, userProfile } = useSelector((state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    userProfile: state.userProfile.userProfile,
+  }));
 
+  const dispatch = useDispatch();
+
+  // site effect function
+  useEffect(() => {
+    if (isAuthenticated) dispatch(getUserProfile("bigpiggy@gmail.com"));
+  }, [dispatch, isAuthenticated]);
+  */
   return (
     <Container className={classes.pageContent}>
       <PageHeader
