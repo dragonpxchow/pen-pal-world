@@ -1,3 +1,4 @@
+import { initialFieldValues } from "../../components/pages/userProfile/userProfileForm";
 import {
   USER_PROFILE_LOADING,
   USER_PROFILE_LOADED,
@@ -14,7 +15,7 @@ import {
 const initState = {
   isLoading: false,
   isLoaded: false,
-  userProfile: {},
+  userProfile: initialFieldValues,
   /* 
   userProfile: {
     accountId: "",

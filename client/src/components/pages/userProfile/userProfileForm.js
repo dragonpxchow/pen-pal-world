@@ -24,10 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialFieldValues = {
-  id: 0,
+export const initialFieldValues = {
   accountId: "",
-  fullName: "hello Pei",
+  fullName: "",
   email: "",
   mobile: "",
   city: "",
@@ -90,6 +89,7 @@ export const UserProfileForm = () => {
       "userProfileForm useEffect dispatch to getUserProfile() ............"
     );
     */
+
     if (isAuthenticated) dispatch(getUserProfile());
   }, [isAuthenticated, dispatch]);
 
@@ -106,13 +106,8 @@ export const UserProfileForm = () => {
     validateOnBlur, // validate each field onBlur but not onChange (false)
     validateForm,
     resetForm,
-  } = useForm(
-    isLoaded ? userProfile : initialFieldValues,
-    initialErrorValues,
-    validationSchema,
-    false
-  );
-  //} = useForm(initialFieldValues, initialErrorValues, validationSchema, false);
+  } = useForm(userProfile, initialErrorValues, validationSchema, false);
+  //} = useForm(isLoaded ? userProfile : initialFieldValues, initialErrorValues, validationSchema, false);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -126,11 +121,11 @@ export const UserProfileForm = () => {
 
     //console.log("Attempt to submit the form >>>", values);
     if (isLoaded) {
-      //console.log("dispatch to update existing user profile ...");
+      console.log("dispatch to update existing user profile ...");
       dispatch(updateUserProfile(values));
     } else {
+      console.log(">> dispatched createUserProfile");
       dispatch(createUserProfile(values));
-      //console.log(">> dispatched createUserProfile");
     }
 
     //signIn(values);
